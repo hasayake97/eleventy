@@ -12,8 +12,7 @@ module.exports = api => {
   const markdownFiles = api.getFilteredByGlob('src/post/**/*.md')
 
   const before = markdownFiles.reduce((before, file) => {
-    const { filePathStem } = file
-    const dir = getDIR(filePathStem)
+    const dir = getDIR(file.filePathStem)
 
     if (dir in before) { before[dir].push(file) }
 
@@ -26,6 +25,7 @@ module.exports = api => {
     const index = before[key].findIndex(file => file.filePathStem.includes('index'))
     const indexFile = before[key][index]
     ;[before[key][0], before[key][index]] = [before[key][index], before[key][0]]
+
     output[key] = {
       title: indexFile.data.pTitle || '未设置',
       url: indexFile.data.page.url,
@@ -38,12 +38,8 @@ module.exports = api => {
     return output
   }, {})
 
-
-
-  const result = {
+  return {
     getChildren: key => after[key]?.children || [],
     nav: Object.keys(after).map(key => ({ title: after[key].title, url: after[key].url })),
   }
-
-  return result
 }
