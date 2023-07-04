@@ -1,0 +1,20 @@
+.home-main {
+  display: flex;
+  height: inherit;
+  flex-direction: column;
+}
+
+.home-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: url(//icvip-temp.oss-cn-shenzhen.aliyuncs.com/cdn/202211/fcavzvoh_background.png) no-repeat;
+  background-size: cover;
+}
+
+.home-content-title {
+  color: #666;
+  font-size: 58px;
+  padding-bottom: 120px
+}

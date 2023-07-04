@@ -1,0 +1,14 @@
+<header class="header">
+  <div class="header-container">
+    <div class="header-logo">
+      <a href="/">logo</a>
+    </div>
+    <ul class="header-wrapper">
+      {% for item in collections.menu.nav %}
+      <li class="header-link">
+        <a href="{{ item.url }}">{{ item.title }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</header>

@@ -1,0 +1,23 @@
+.doc-viewer {
+  height: inherit;
+  display: flex;
+  flex-direction: column;
+}
+
+.doc-viewer-container {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+.doc-viewer-nav {
+  height: 100%;
+  flex-basis: 320px;
+  overflow-y: auto;
+}
+
+.doc-viewer-content {
+  flex: 1;
+  padding: 12px;
+  overflow-y: auto;
+}
