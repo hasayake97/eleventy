@@ -118,3 +118,5 @@ dist
 
 # DIY
 _site
+.idea
+.vscode
