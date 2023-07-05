@@ -15,7 +15,8 @@ p,
 figure,
 blockquote,
 dl,
-dd {
+dd,
+ul {
   margin: 0;
 }
 
@@ -74,4 +75,12 @@ select {
 
 ul, ol {
   list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  opacity: .8;
 }

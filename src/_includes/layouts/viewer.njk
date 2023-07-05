@@ -1,3 +1,16 @@
+{% macro renderMenu(menuItems) %}
+<ul class="doc-viewer-nav">
+  {% for item in menuItems %}
+  <li>
+    <a href="{{ item.url }}">{{ item.title }}</a>
+    {% if item.children %}
+    {{ renderMenu(item.children) }}
+    {% endif %}
+  </li>
+  {% endfor %}
+</ul>
+{% endmacro %}
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -13,13 +26,7 @@
   <div class="doc-viewer">
     {% include "layouts/nav.njk" %}
     <div class="doc-viewer-container">
-      <ul class="doc-viewer-nav">
-        {% for item in collections.menu.getChildren(key) %}
-          <li>
-            <a href="{{ item.url }}">{{ item.title }}</a>
-          </li>
-        {% endfor %}
-      </ul>
+      {{ renderMenu(collections.menu.getTree(key)) }}
       <div class="doc-viewer-content">
         {{ content | safe }}
       </div>

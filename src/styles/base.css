@@ -5,12 +5,13 @@ html, body {
 
 .header {
   padding: 0 16px;
-  min-height: 56px;
+  height: 56px;
   border: 1px solid #eee;
   box-shadow: 0 2px 12px #999;
 }
 
 .header-container {
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;

@@ -6,40 +6,57 @@
  * @path: helper\getMarkdownList.js
  */
 
-const getDIR = path => path.match(/\/([^/]+)\/[^/]+$/)[1]
+
+const removePrefix = path => path.replace(/\/(post|index)\/?/g, '')
+
+const pathParser = path => path.split('/')
+
+// 获取扁平化数组
+const getFlatArray = files => {
+  return files.map(file => {
+    const keys = pathParser(removePrefix(file.filePathStem))
+
+    return {
+      id: keys.pop(),
+      getFile: () => file,
+      title: file.data.title,
+      url: file.data.page.url,
+      parent: keys.pop() || null,
+    }
+  })
+}
+
+// 将扁平化数组构建为一棵 tree
+const buildTree = (flatArray, parent = null) => {
+  const tree = []
+
+  for (const item of flatArray) {
+    if (item.parent === parent) {
+      const children = buildTree(flatArray, item.id)
+      if (children.length) {
+        item.children = children
+      }
+
+      tree.push(item)
+    }
+  }
+
+  return tree
+}
 
 module.exports = api => {
   const markdownFiles = api.getFilteredByGlob('src/post/**/*.md')
 
-  const before = markdownFiles.reduce((before, file) => {
-    const dir = getDIR(file.filePathStem)
-
-    if (dir in before) { before[dir].push(file) }
-
-    if (!(dir in before)) { before[dir] = [file] }
-
-    return before
-  }, [])
-
-  const after = Object.keys(before).reduce((output, key) => {
-    const index = before[key].findIndex(file => file.filePathStem.includes('index'))
-    const indexFile = before[key][index]
-    ;[before[key][0], before[key][index]] = [before[key][index], before[key][0]]
-
-    output[key] = {
-      title: indexFile.data.pTitle || '未设置',
-      url: indexFile.data.page.url,
-      children: before[key].map(file => ({
-        title: file.data.title,
-        url: file.data.page.url
-      }))
-    }
-
-    return output
-  }, {})
+  const tree = buildTree(getFlatArray(markdownFiles))
 
   return {
-    getChildren: key => after[key]?.children || [],
-    nav: Object.keys(after).map(key => ({ title: after[key].title, url: after[key].url })),
+    getTree: key => ([tree.find(item => item.id === key)]),
+    nav: Object.keys(tree).map(key => {
+      const current = tree[key]
+      return ({
+        url: current.url,
+        title: current.getFile().data.moduleName
+      })
+    }),
   }
 }
