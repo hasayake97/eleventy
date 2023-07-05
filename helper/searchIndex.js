@@ -10,14 +10,11 @@ const fs = require('fs')
 
 module.exports = eleventyConfig => {
   eleventyConfig.on('afterBuild', function(list) {
-    const fileContent = list.results.reduce((context, item) => {
-      context.push({
-        id: item.url,
-        content: item.content
-      })
-
-      return context
-    }, [])
+    const fileContent = list.results.map(item => ({
+      id: item.url,
+      content: item.content,
+      title: item.content.match(/<title>(.*)<\/title>/)[1]
+    }))
 
     fs.writeFileSync('./_site/searchIndex.json', JSON.stringify(fileContent))
   })

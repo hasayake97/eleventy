@@ -7,19 +7,30 @@
  */
 
 ;(function() {
+  const htmlTokenizer = function (obj, metadata) {
+    if (!obj || typeof obj !== 'string') return []
+
+    // 去除 HTML 标签
+    const cleanText = obj.replace(/(\/|>|<|<.*>|<\/.*>)/g, '')
+
+    // 使用默认分词器对文本进行分词
+    return lunr.tokenizer(cleanText, metadata)
+  }
+
   const getSearchIndexJson = () => {
     return fetch('/searchIndex.json')
       .then(response => response.json())
       .then(data => {
         return lunr(function() {
-          this.field('content')
+          this.tokenizer = htmlTokenizer
           this.ref('id')
+          this.field('title', { boost: 10 })
+          this.field('content')
 
           data.forEach(item => {
-            this.add({
-              id: item.id,
-              content: item.content
-            })
+            console.log(item, 'item')
+
+            this.add(item)
           })
         })
       })
