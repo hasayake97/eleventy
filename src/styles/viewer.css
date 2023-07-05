@@ -23,3 +23,10 @@
   overflow-y: auto;
 }
 
+.doc-viewer-content-toc {
+  position: fixed;
+  top: 60px;
+  right: 40px;
+  width: 300px;
+  background-color: #eee;
+}

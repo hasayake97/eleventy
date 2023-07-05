@@ -26,9 +26,12 @@
   <div class="doc-viewer">
     {% include "layouts/nav.njk" %}
     <div class="doc-viewer-container">
-      {{ renderMenu(collections.menu.getTree(key)) }}
+      {% include "layouts/navLeft.njk" %}
       <div class="doc-viewer-content">
         {{ content | safe }}
+      </div>
+      <div class="doc-viewer-content-toc">
+        {{ content | toc | safe }}
       </div>
     </div>
   </div>

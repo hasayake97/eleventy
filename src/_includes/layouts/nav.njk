@@ -3,12 +3,17 @@
     <div class="header-logo">
       <a href="/">logo</a>
     </div>
-    <ul class="header-wrapper">
-      {% for item in collections.menu.nav %}
-      <li class="header-link">
-        <a href="{{ item.url }}">{{ item.title }}</a>
-      </li>
-      {% endfor %}
-    </ul>
+
+    <div class="header-right">
+      {% include "layouts/search.njk" %}
+
+      <ul class="header-wrapper">
+        {% for item in collections.menu.nav %}
+        <li class="header-link">
+          <a href="{{ item.url }}">{{ item.title }}</a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
   </div>
 </header>

@@ -1,0 +1,14 @@
+{% macro renderMenu(menuItems) %}
+<ul class="doc-viewer-nav">
+  {% for item in menuItems %}
+  <li>
+    <a href="{{ item.url }}">{{ item.title }}</a>
+    {% if item.children %}
+    {{ renderMenu(item.children) }}
+    {% endif %}
+  </li>
+  {% endfor %}
+</ul>
+{% endmacro %}
+
+{{ renderMenu(collections.menu.getTree(key)) }}

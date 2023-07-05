@@ -9,6 +9,7 @@
 // 添加插件
 const addPlugin = config => {
   const plugins = [
+    require('eleventy-plugin-nesting-toc'),
     require('@11ty/eleventy-plugin-syntaxhighlight')
   ]
 
@@ -17,17 +18,21 @@ const addPlugin = config => {
 
 // 添加直通目录
 const addPath = config => {
-  const path = ['src/styles', 'src/assets']
+  const path = ['src/js', 'src/styles', 'src/assets']
 
   path.forEach(path => config.addPassthroughCopy(path))
 }
 
 module.exports = eleventyConfig => {
   addPath(eleventyConfig)
+
   addPlugin(eleventyConfig)
 
+  require('./helper/markdown')(eleventyConfig)
 
   eleventyConfig.addCollection('menu', require('./helper/getMarkdownList'))
+
+  require('./helper/searchIndex')(eleventyConfig)
 
   return {
     pathPrefix: '/',
