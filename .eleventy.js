@@ -6,6 +6,8 @@
  * @path: .eleventy.js
  */
 
+const _11ty = require('./_11ty')
+
 // 添加插件
 const addPlugin = config => {
   const plugins = [
@@ -28,14 +30,15 @@ module.exports = eleventyConfig => {
 
   addPlugin(eleventyConfig)
 
-  require('./helper/markdown')(eleventyConfig)
+  eleventyConfig.setLibrary('md', _11ty.markdown)
 
-  eleventyConfig.addCollection('menu', require('./helper/getMarkdownList'))
+  eleventyConfig.addCollection('menu', _11ty.menu)
 
-  require('./helper/searchIndex')(eleventyConfig)
+  eleventyConfig.on('afterBuild', _11ty.searchIndex)
 
   return {
     pathPrefix: '/',
+
     dir: {
       input: 'src'
     }

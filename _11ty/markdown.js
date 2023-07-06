@@ -31,7 +31,7 @@ const linkOpen = md => {
   }
 }
 
-module.exports = eleventyConfig => {
+const main = () => {
   const md = markdownIt({
     html: true,
     breaks: true,
@@ -48,5 +48,7 @@ module.exports = eleventyConfig => {
     linkOpen(md)
   })
 
-  eleventyConfig.setLibrary('md', md)
+  return md
 }
+
+module.exports = main()
